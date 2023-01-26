@@ -1,0 +1,23 @@
+{% extends "ews/base.html" %}
+
+{% block body %}
+
+<h1>Create new data</h1>
+<h4>Here you can upload a single value</h4>
+
+<form method = "post", action="{% url 'ews:add_data'%}">
+  {% csrf_token %}
+  {{form}}
+  <input type="submit" value="Submit">
+</form>
+
+<hr>
+<h4>Here you can upload a csv file containing multiple data</h4>
+
+<form method="post" enctype="multipart/form-data" action="{%url 'ews:file_upload' %}">
+  {% csrf_token %}
+  <input type="file" name="myfile">
+  <button type="submit">Upload</button>
+</form>
+
+{% endblock %}

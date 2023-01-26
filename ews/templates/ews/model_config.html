@@ -1,0 +1,28 @@
+{% extends "ews/base.html" %}
+
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}
+{% endblock %}
+
+{% block body %}
+<div class="container" style="padding: 5%">
+
+  <div class="row">
+
+    <div class="col-sm-12">
+      <h4 class="headline mb-3">Create new prediction model</h4>
+      <hr>
+      {% if message %}<p><bold>{{ message }}</bold></p>{% endif %}
+      <form action="" method="post">
+        {% csrf_token %}
+        {{ pmodel_form|crispy }}
+        <button class="btn btn-outline-primary" type="submit">Submit</button>
+      </form>
+    </div> <!-- col-sm-12 -->
+
+  </div>  <!-- row -->
+
+</div>  <!-- container -->
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "ews/base.html" %}
+
+{% load leaflet_tags %}
+{% load geojson_tags %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block head %}
+{% leaflet_js plugins="forms" %}
+{% leaflet_css plugins="forms" %}
+<!-- load common styles from css file -->
+<link rel="stylesheet" type="text/css" href="{% static 'ews/css/styles_leaflet.css' %}">   
+<!-- override styles that differ here -->
+<style>
+  .leaflet-container {  /* all maps */
+    width:  100% !important;
+    height: 600px !important;
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container" style="padding: 2%">
+  <div class="row">
+    <div class="col-sm-12">
+      <div>
+        <h4 class="headline">Variable selection map</h4>
+        <p>Use the map to define relevant catchments for predictor variables</p>
+        <form action="{% url 'ews:selectarea_create' %}" method="post">
+          {% csrf_token %}
+          {{ form|crispy }}
+          <button class="btn btn-outline-primary" type="submit"> Submit </button>
+        </form>
+      </div>
+    </div>                
+  </div>
+</div>
+
+<!-- Load additional js functions and variables from script file:
+- geojsonMarkerOptions
+- getFillColorAndRadiusByType()
+-->
+<script type="text/javascript" src="{% static 'ews/js/detail.js' %}"></script>
+
+<script>
+window.addEventListener(
+  "map:init", 
+  function (e) {
+    var detail = e.detail;
+    var collection = {{ entries|geojsonfeature:"SiteType"|safe }};
+    
+    L.geoJson(collection, { 
+      pointToLayer: function (feature, latlng) {
+        return L.circleMarker(latlng, geojsonMarkerOptions);
+      },
+      style: function(feature) {
+        return getFillColorAndRadiusByType(feature.properties.SiteType);
+      }
+    }).addTo(detail.map);
+  }, 
+  false
+);
+</script>
+
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "ews/base.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block body %}
+
+<div class="container" style="padding: 5%">
+  
+  <div class="row">
+
+    <div class="col-sm-8">
+      <h4 class="mb-6 haedline">Upload your data as csv file</h4>
+      <form method="post" enctype="multipart/form-data" action = "{% url 'ews:file_upload' site_id %}">
+      {% csrf_token %}
+        <div class="custom-file mt-4" id="customFile" lang="en">
+          <input type="file" class="custom-file-input" id="exampleInputFile" type="file" name="myfile" aria-describedby="fileHelp">
+          <label class="custom-file-label" for="exampleInputFile"></label>
+        </div>
+        <button class = "btn btn-primary mt-3" type="submit">Upload</button>
+      </form>
+      <!--
+      <form method="post" enctype="multipart/form-data" action = "{%url 'ews:file_upload' site_id%}">
+        {% csrf_token %}
+        <input type="file" name="myfile">
+        <button type="submit">Upload</button>
+      </form>
+      -->
+      <hr>
+      <h5> Information/support</h5>
+      With this for you are able to upload a file containing your time series data.
+    </div> <!-- col-sm-8 -->
+
+    <div class="col-sm-3 offset-sm-1"> <!--style= "background-color: #007c9f; color: white">--> 
+      <h4 class= "mb-3">Options</h4>
+      <a class = "btn btn-primary mt-3 btn-block" href="{% url "ews:spot_create" %}"> Create new bathing spot</a>
+      <a class = "btn btn-primary mt-3 btn-block" href="{% url 'ews:add_site' %}"> Create new predictor</a>
+      <a class = "btn btn-primary mt-3 btn-block" href = "{% url "ews:model_config" %}"> Configure prediction model</a>
+    </div> <!-- col-sm-3 -->
+
+  </div> <!-- row -->
+
+</div> <!-- container -->
+{% endblock %}

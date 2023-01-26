@@ -1,0 +1,120 @@
+.btn-primary,
+.btn-outline-primary,
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:visited {
+  background-color: #212C52;
+  border-color: #75C3FF;
+}
+
+.text_link_kwb {
+  color:#212C52;
+} 
+
+.btn-outline-primary {
+  color: #212c52;
+  background-color: transparent;
+  background-image: none;
+  border-color: #3185ff;
+  font-weight: bold;
+  border-width: .2rem;
+}
+
+.btn-outline-primary:hover {
+  color: "white";
+  background-color: rgba(33,44,82,1);  
+  border-color: transparent;
+}
+
+.btn-outline-danger {  
+  background-color: "white";
+  font-weight: bold;
+  border-color: transparent;  
+}
+
+.card:hover {
+  color: "white";  
+  box-shadow: 0 0 0 .4rem #3185ff;
+  background-color: rgba(117, 195, 255, .3);
+  border-color:rgba(33,44,82,.8);
+}
+
+.card {
+  color: "white";
+  border-color: rgba(117, 195, 255, .4);
+  box-shadow:0 0 0 .8rem rgba(117, 195, 255, .2);  
+}
+
+.card-header{
+  color:"white";
+  background-color: #212c52;
+  background-image: none;  
+  border-width: .02rem;
+}
+
+.card-footer{
+  color: #212c52;
+  background-color: "white";
+  background-image: none;
+  border-width: .02rem;
+}
+
+.btn-outline-primary:focus,
+.btn-outline-primary.focus {
+  box-shadow: 0 0 0 .2rem rgba(117, 195, 255, 0.5)
+}
+
+.btn-outline-primary.disabled,
+.btn-outline-primary:disabled {
+  color: #7cc;
+  background-color: transparent
+}
+
+.btn-outline-primary:not(:disabled):not(.disabled):active,
+.btn-outline-primary:not(:disabled):not(.disabled).active,
+.show>.btn-outline-primary.dropdown-toggle {
+  color: #212529;
+  background-color: #8ad3d3;
+  border-color: #7cc
+}
+
+.btn-outline-primary:not(:disabled):not(.disabled):active:focus,
+.btn-outline-primary:not(:disabled):not(.disabled).active:focus,
+.show>.btn-outline-primary.dropdown-toggle:focus {
+  box-shadow: 0 0 0 .2rem rgba(117, 195, 255, 0.5)
+}
+
+body {
+  width: 100%;
+  height: 200px;
+  background-color: "white"; 
+}
+
+.navbar-custom {
+  background-color: transparent;
+}
+
+/* change the brand and text color */
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-text {
+  color: #212529;
+  font-weight: bold;
+}
+
+/* change the link color */
+.navbar-custom .navbar-nav .nav-link {
+  color: #212529;
+  font-weight: bold;
+}
+
+/* change the color of active or hovered links */
+.navbar-custom .nav-item.active .nav-link,
+.navbar-custom .nav-item:hover .nav-link {
+  color: #3185ff;
+  font-weight: bold;
+}
+
+.headline{
+  color: #212529;
+  font-weight: bold;
+}

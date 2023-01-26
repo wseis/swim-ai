@@ -1,0 +1,40 @@
+{% extends "ews/base.html" %}
+
+{% load static %}
+
+{% block body %}
+
+    {% if message %}
+        <div>{{ message }}</div>
+    {% endif %}
+    
+  <div class="container" style="padding: 5%">
+
+  <div class="row">
+  <div class="col-sm-6">
+  <h1 class = "headline">Welcome!</h1>
+
+  <p class = "text_link_kwb" >Please type in your username and passwort</p>
+
+    <form action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <input autofocus class="form-control" type="text" name="username" placeholder="Username">
+        </div>
+        <div class="form-group">
+            <input class="form-control" type="password" name="password" placeholder="Password">
+        </div>
+        <input class="btn btn-primary" type="submit" value="Login">
+    </form>
+
+   <p class = "text_link_kwb" > Don't have an account? <a href="{% url "ews:register"%}">Register here.</a></p>
+
+  </div>
+
+  <div class="col-sm-5 offset-sm-1" >
+  <img class= "img-fluid" src="{% static "ews/img/DWC-RVB-COLOR.svg" %}" width = "80%" alt="...">
+  <img class= "img-fluid" src="{% static "ews/img/decision-support-systems-round.png" %}" width = "40%" alt="...">
+  <img class= "img-fluid" src="{% static "ews/img/open-source-software-round.png" %}" width = "40%" alt="...">
+ 
+  </div>
+{% endblock %}

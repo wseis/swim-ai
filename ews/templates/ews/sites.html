@@ -1,0 +1,41 @@
+{% extends "ews/base.html" %}
+
+{% load leaflet_tags %}
+{% load geojson_tags %}
+{% load static %}
+
+{% block head %}
+{% leaflet_css %}
+{% leaflet_js %}
+<!-- load common styles from css file -->
+<link rel="stylesheet" type="text/css" href="{% static 'ews/css/styles_leaflet.css' %}">
+<!-- override styles that differ here -->
+<style>
+  #specialbigmap {
+    height: 800px !important;
+  }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="container" style="padding: 2%">
+  <div class="row">
+    <div class="col-sm-12"> 
+      <h4 class = "headline">Overview of available measurement sites</h4>
+      <p>Click on the markers to see details and to add data</p>
+      <a class = "btn btn-outline-primary mt-3 mb-3" href="{% url 'ews:add_site'%}"> Create new predictor</a>
+      <a class = "btn btn-outline-primary mt-3 mb-3" href="{% url 'ews:selectarea_create'%}"> Create new feature group</a>  
+      <div>
+        <!-- Define js variables that use template-syntax that are used in script -->
+        <script type="text/javascript">
+          var collection = {{ entries|geojsonfeature:"popupContent,SiteType"|safe }};
+          var areas = {{ areas|geojsonfeature:"popupContent,SiteType"|safe }};
+        </script>
+        <!-- Load additional js functions and variables from script files -->
+        <script type="text/javascript" src="{% static 'ews/js/detail.js' %}"></script>
+        {% leaflet_map "spots" callback="window.map_init" %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

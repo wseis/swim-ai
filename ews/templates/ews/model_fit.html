@@ -1,0 +1,158 @@
+{% extends "ews/base.html" %}
+
+{% load leaflet_tags %}
+{% load geojson_tags %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block head %}
+{% leaflet_css %}
+{% leaflet_js %}
+<!-- load common styles from css file -->
+<link rel="stylesheet" type="text/css" href="{% static 'ews/css/styles_leaflet.css' %}">
+<!-- override styles that differ here -->
+<style>
+  .leaflet-container {  /* all maps */
+    width:  100% !important;
+    height: 350px !important;
+  }
+</style>
+{% endblock %}
+
+{% block body %}      
+<div class="container-fluid" style="padding: 5%">
+
+  <h4 class="media-heading headline">{{bathingspot|title}}</h4>
+
+  <div class="custom-control custom-switch" id = "prediction_switch">
+    <input type="checkbox" class="custom-control-input" data-post={{model.id}} data-predict={{model.predict}} id="customSwitches">
+    <label class="custom-control-label" for="customSwitches">Use this model for making predictions</label>
+  </div>
+
+  <div class="custom-control custom-switch" id = "show_id_switch">
+    <input type="checkbox" class="custom-control-input" data-post={{model.id}} data-predict={{model.predict}} id="broker_id_switch">
+    <label class="custom-control-label" for="broker_id_switch">Show urls for data transfer</label>
+  </div>
+
+  <div class = "alert-primary m-3", id = brokerIDs></div>
+
+  <div class="row">
+
+    <div class="col-sm-6">
+      <div id="hero-graph">
+        {% autoescape off %}
+        {{ model_fit }}
+        {% endautoescape %}
+      </div>
+      <div class="hero-graph">
+        {% autoescape off %}
+        {{ feature_importance }}
+        {% endautoescape %}
+      </div>
+    </div> <!-- col-sm-6 -->
+
+    <div class="col-sm-6">  <!--style= "background-color: #007c9f; color: white">-->         
+      <!-- Define js variables that use template-syntax that are used in script -->
+      <script type="text/javascript">
+        var collection = {{ entries|geojsonfeature:"popupContent,SiteType"|safe }};
+        var areas = {{ areas|geojsonfeature:"popupContent,SiteType"|safe }};
+      </script>
+      <!-- Load additional js functions and variables from script files -->
+      <script type="text/javascript" src="{% static 'ews/js/detail.js' %}"></script>
+      <script type="text/javascript" src="{% static 'ews/js/toggle.js' %}"></script>
+      
+      <div class="mt-5">
+        <p class="mb-4" style="font-size: 14;"></p>
+        {% leaflet_map "spots" callback="window.map_init" %}
+      </div>
+      
+      <div class="mt-5">            
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Metric / Score</th>
+              <th scope="col">Training</th>
+              <th scope="col">Test</th>                   
+            </tr>
+          </thead>
+          <tbody>            
+            <tr>
+              <th scope="row">R2</th>
+              <td>{{R2_training}} </td>
+              <td>{{R2_test}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Mean squared error</th>
+              <td>{{MSE_training}} </td>
+              <td>{{MSE_test}}</td>
+            </tr>
+            <tr>
+              <th scope="row">Sample size</th>
+              <td>{{N_train}} </td>
+              <td>{{N_test}}</td>
+            </tr>
+            <tr>
+              <th scope="row">% below 95th percentile</th>
+              <td> - </td>
+              <td> {{ ratios.belowP95}} </td>
+            </tr>
+            <tr>
+              <th scope="row">% below 90th percentile</th>
+              <td> - </td>
+              <td> {{ ratios.belowP90}} </td>
+            </tr>
+            <tr>
+              <th scope="row">% in 95% prediction interval</th>
+              <td> - </td>
+              <td> {{ ratios.in95}} </td>
+            </tr>
+            <tr>
+              <th scope="row"> Correctly predicted contaminations <br>(True-positive rate)</th>
+              <td> - </td>
+              <td> {{ ratios.truely_predicted_contaminations}} ({{ratios.true_positive}}/{{ratios.N_highMeasurements}}) </td>
+            </tr>
+            <tr>
+              <th scope="row">Unpredicted contaminations <br> (False-negative rate)</th>
+              <td> - </td>
+              <td> {{ ratios.falsely_predicted_good}} ({{ratios.false_positive}}/{{ratios.N_highMeasurements}}) </td>
+            </tr>            
+          </tbody>
+        </table>
+
+      </div> <!-- mt-5 -->
+    </div> <!-- col-sm-6 -->
+  </div> <!-- row -->
+
+</div>
+<hr>
+<div class = "container">
+  <div class = "row">
+    <div class = "col-2 m-4">
+      
+      <form  id = dateform method="POST">
+        {% csrf_token %} 
+        
+        <div id="div_id_date_start" class="form-group"> 
+          <label for="id_date_start" class=" requiredField">
+            Start date<span class="asteriskField">*</span> </label> 
+            <div class=""> 
+              <input type="date" value = {{testdates_min}} name="date_start" class="dateinput form-control"  required id="id_date_start"> 
+            </div> 
+          </div>
+          <div id="div_id_date_end" class="form-group"> 
+            <label for="id_date_end" class=" requiredField">
+              End date<span class="asteriskField">*</span> </label> 
+              <div class="">
+                <input type="date" value = {{testdates_max}} name="date_end" class="dateinput form-control"  required id="id_date_end">                 
+              </div>
+            </div>                        
+            <input type = hidden id = "modelID" value = {{model_id}}>
+            <input type="submit" class = "btn btn-outline-primary" id = "btn-daterange" name="submit" value="Submit">
+          </form>
+        </div>
+        <div class = "col-9" id = "myDiv"style="width:600px;height:250px;">          
+        </div>
+      </div>
+  </div>
+</div> <!-- container-fluid -->
+{% endblock %}  

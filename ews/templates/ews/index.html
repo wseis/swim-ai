@@ -1,0 +1,59 @@
+{% extends "ews/base.html" %}
+
+{% block title %}{% endblock %}
+{% block head %}{% endblock %}
+
+{% block body %}
+
+<div class="container" style="padding: 2%">
+  
+  <div class="row">
+
+    <div class="col-lg-12">
+      <div>
+        <h4 class="headline"> Available bathing spots</h4>
+        <hr>
+        <a class="btn btn-outline-primary mt-3 mb-3" href="{% url 'ews:spot_create' %}">Create new bathing spot</a>
+        <!--     
+        <a class="btn btn-primary mt-3 btn-block" href="{% url 'ews:add_site' %}">Create new predictor</a>
+        <a class="btn btn-primary mt-3 btn-block" href="{% url 'ews:model_config' %}">Configure prediction model</a>
+        -->
+      </div>
+    </div> <!-- col-lg-12 -->
+    
+    <div class="card-group mt-3"> 
+      
+      {% for entry in entries %}
+      
+      <div class="col">
+        <div class="card mb-5" style="width:18rem;">
+          
+          <!-- <img src="{{ entry.image }}" class="card-img-top p-1" style="border-radius: 0px; "alt="..."> -->
+          
+          <h5 class="card-title card-header headline p-3">
+            <a href="{% url 'ews:detail' entry.id %}" style="color: white">{{ entry.name }}</a>
+          </h5>
+            
+          <div class="card-body">              
+            <p class="card-text"> <strong>ID:</strong> {{ entry.id }}</p>
+            <p class="card-text"><strong>Number of models: </strong>{{ entry.models.count }}</p>
+          </div> 
+            
+          <div class="card-body">
+            <a href="{% url 'ews:detail' entry.id %}" class="btn btn-sm btn-outline-primary px-4 mr-3 card-text"><strong class="card-text">Edit</strong></a>
+            <a href="{% url 'ews:site_delete' entry.id %}" class="btn btn-sm btn-outline-danger p-2 card-text">Delete</a>
+          </div>
+            
+        </div> <!-- card mb-5 -->
+      </div> <!-- col -->
+        
+      {% empty %}
+      <p class="alert-primary p-5">{{ message }}</p>
+      {% endfor %}
+
+    </div> <!-- card-group mt-3 -->
+
+  </div> <!-- row -->
+
+</div> <!-- container -->
+{% endblock %}

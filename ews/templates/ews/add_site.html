@@ -1,0 +1,32 @@
+{% extends "ews/base.html" %}
+
+{% load leaflet_tags %}
+{% load geojson_tags %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block head %}
+
+{% leaflet_js plugins="forms" %}
+{% leaflet_css plugins="forms" %}
+
+<link rel="stylesheet" type="text/css" href="{% static 'ews/css/styles_leaflet.css' %}">
+
+{% endblock %}
+
+{% block body %}
+
+<div class="container" style="padding: 5%"> 
+  <div class="row">
+    <div class="col-sm-12">
+      <h4 class="headline">Create new predictor variable</h4>
+      <form action="{% url 'ews:add_site' %}" method = "post">
+        {% csrf_token %}
+        {{form|crispy}}
+        <button class="btn btn-outline-primary" type="submit">Submit</button>
+      </form>
+    </div> <!-- col-sm-12 -->
+  </div> <!-- row -->
+</div> <!-- container -->
+
+{% endblock %}

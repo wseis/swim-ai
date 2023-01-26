@@ -1,0 +1,56 @@
+{% extends "ews/base.html" %}
+
+{% block title %}
+{% endblock %}
+
+{% block body %}
+<div class="container" style="padding: 2%">
+  
+  <div class="row">
+
+    <div class="col-sm-12">
+      <h4 class = "headline"> Available models</h4>
+      {% if message %}
+      <p><bold>{{ message }}</bold></p>
+      {% endif %}
+      <a class = "btn btn-outline-primary mt-3 mb-3" href = "{% url 'ews:model_config' %}"> Configure new prediction model</a>
+      {% if message %}
+      <div class="alert alert-danger" role="alert">{{ message }}</div>
+      {% endif %}
+      {% for model in entries %}
+      <div>
+        <ul>          
+          <div class="media p-3 mt-3" style = "background-color: rgba(49, 133, 255, .133); border-radius: 1rem;">
+
+            <div class="media-left pr-3">
+              <img class= "img-fluid" src="/static/ews/img/placeholder_dwc.png" alt="...">              
+            </div>
+            
+            <div class="media-body">
+              <h4 class="media-heading headline">{{ model.name|title }}</h4>
+              <p>
+                {{ model.description|capfirst }}
+                <strong>Bathing Spot:</strong>
+                {% for pub in model.site.all %}{{ pub.name }}{% endfor %}
+                <strong>Algorithm:</strong>
+                {{ model.algorithm }}
+                <strong>Used for prediction:</strong>
+                {{ model.predict }}
+              </p>
+              <a href= "{% url 'ews:model_fit' model.id %}", class = "btn-sm btn-primary sm"> Fit model </a>
+              <a href= "{% url 'ews:model_delete' model.id %}", class = "btn-sm btn-danger sm"> Delete model </a>
+            </div> <!-- media-body -->
+
+          </div> <!-- media p-3 mt-3 -->
+          <hr>          
+        </ul>
+        {% empty %}
+        <p>There are currently no existing prediction models. Create some predictors and start modeling!</p>          
+        <a href="{% url 'ews:add_site' %}"></a>          
+      {% endfor %}
+    </ul>
+
+  </div> <!-- row -->
+
+</div> <!-- container -->
+{% endblock %}

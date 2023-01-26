@@ -1,0 +1,111 @@
+{% extends "ews/base.html" %}
+
+{% load leaflet_tags %}
+{% load geojson_tags %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block head %}
+{% leaflet_js plugins="forms" %}
+{% leaflet_css plugins="forms" %}
+<!-- load common styles from css file -->
+<link rel="stylesheet" type="text/css" href="{% static 'ews/css/styles_leaflet.css' %}">
+<!-- override styles that differ here -->
+<style>
+  .leaflet-container {  /* all maps */
+    width:  100% !important;
+    height: 350px !important;
+  }
+</style>
+{% endblock %}
+
+{% block body %} 
+<div class="container" style="padding: 5%">
+  <div class="row">
+    <div class="col-sm-12">
+      <h4 class ="headline">{{ entries.name|title }}</h4>
+      <hr>      
+      <div class = "p-4">        
+        <!-- Define js variables that use template-syntax that are used in script -->
+        <script type="text/javascript">
+          var collection = {{ entries|geojsonfeature:"popupContent,SiteType"|safe }};
+          var areas = {{ areas|geojsonfeature:"popupContent,SiteType"|safe }};
+        </script>        
+        <!-- Load additional js functions and variables from script file -->
+        <script type="text/javascript" src="{% static 'ews/js/detail.js' %}"></script>        
+        {% leaflet_map "spots" callback="window.map_init" %}        
+      </div>            
+      <h4 class ="headline"> Dataset</h4>
+      <hr>      
+      <div>
+        {% autoescape off %}
+        {{ fig }}
+        {% endautoescape %}        
+      </div>        
+      <h4 class ="headline"> Upload data as csv-file</h4>
+      <span>
+        <div class="custom-control custom-switch" id = "show_id_switch">
+          <input type="checkbox" class="custom-control-input" data-post={{ model.id }} data-predict={{ model.predict }} id="helptext_upload_switch">
+          <label class="custom-control-label" for="helptext_upload_switch">Show help text</label>
+        </div>
+      </span>      
+      <div class = "alert-primary m-3", id = helptext_upload>        
+      </div>
+      <hr>      
+      <div class = "pl-4 pr-4">
+        <form  method="post" enctype="multipart/form-data" action = "{%url 'ews:detail' entries.id%}">
+          {% csrf_token %}
+          <div class="custom-file mt-4" id="customFile" lang="en">
+            <input type="file" class="custom-file-input" id="exampleInputFile" type="file" name="myfile" aria-describedby="fileHelp">
+            <label class="custom-file-label" for="exampleInputFile"></label>
+          </div>
+          <button class = "btn btn-outline-primary mt-3" type="submit">Upload</button>
+        </form>
+      </div>      
+      {% if bathingspot %}
+      <h4 class ="headline mt-5"> Prediction models</h4>
+      <hr>
+      <div>
+        {% for model in models %}
+        <ul>
+          <div class="media p-3 mt-3" style = "background-color: rgba(49, 133, 255, .133); border-radius: 1rem;">
+            <div class="media-left pr-3">              
+              <img class= "img-fluid" src="/static/ews/img/placeholder_dwc.png" alt="...">              
+            </div>            
+            <div class="media-body">
+              <h4 class="media-heading headline">{{ model.name|title }}</h4>
+              <p>
+                {{ model.description|capfirst }}
+                <strong>Bathing Spot:</strong>
+                {% for pub in model.site.all %}{{ pub.name }}{% endfor %}
+                <strong>Algorithm:</strong>
+                {{ model.algorithm }}
+                <strong>Used for prediction:</strong>
+                {{ model.predict }}
+              </p>
+                <a href= "{% url 'ews:model_fit' model.id %}", class = "btn-sm btn-primary sm"> Fit model </a>
+                <a href= "{% url 'ews:model_delete' model.id %}", class = "btn-sm btn-danger sm"> Delete model </a>
+              </div>
+            </div>
+            <hr>          
+          </ul>
+          {% empty %}
+          <p>There are currently no existing prediction models. Create some predictors and start modeling!</p>          
+          <a href="{% url 'ews:add_site' %}"></a>          
+          {% endfor %}
+        </ul>        
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  <h4 class ="headline mt-5"> Edit and delete</h4>
+  <hr>
+  <div>
+    <div class="alert-danger p-3"><h5><strong> Danger zone: Changes made here are immediate.</strong></h5> </div>
+    <div>
+      <a href= "{% url 'ews:site_delete' entries.id %}" class="mt-3 btn btn-danger btn-lg"> Delete Site</a>
+      <a href="{% url 'ews:data_delete_all' entries.id %}" class="mt-3 btn btn-danger btn-lg">Delete all data</a>
+    </div>
+  </div>
+  <script type="text/javascript" src="{% static 'ews/js/siteDetail.js' %}"></script>
+{% endblock %}
