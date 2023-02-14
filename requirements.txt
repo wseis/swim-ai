@@ -14,7 +14,7 @@ requests
 requests_oauthlib
 statsmodels
 #gdal
-#jupyter
+jupyter
 django-extensions
 shapely
 geojson
@@ -25,3 +25,4 @@ redis
 django-celery-beat
 python-decouple
 unidecode
+skranger
