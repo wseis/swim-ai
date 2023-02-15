@@ -98,12 +98,24 @@ def aggregate_to_daily(aggregation_date  = datetime.date.today()):
 
     #aggregate rainfall
     rainfall = pd.DataFrame(list(FeatureData.objects.filter(date__date=yesterday, 
-                                                  site__in = Site.objects.filter(feature_type__name = "Rainfall")).values())).set_index("date")
-    rainfall = rainfall.groupby(["site_id", "variable_id", "method_id"]).resample("D").sum().drop(["site_id", "variable_id", "method_id"], axis = 1).reset_index()
+                            site__in = Site.objects.filter(feature_type__name = "Rainfall")).values())).set_index("date")
+    
+    rainfall = rainfall.groupby(["site_id", 
+                                 "variable_id", 
+                                 "method_id"]).resample("D").sum().drop(["site_id", 
+                                                                         "variable_id", 
+                                                                         "method_id"], 
+                                                                        axis = 1).reset_index()
     # aggregate data from other Feature Types
     others = pd.DataFrame(list(FeatureData.objects.filter(date__date=yesterday, 
-                                                  site__in = Site.objects.filter(feature_type__name__in = ["WWTP", "Riverflow", "Network"])).values())).set_index("date")
-    others = others.groupby(["site_id", "variable_id", "method_id"]).resample("D").mean().drop(["site_id", "variable_id", "method_id"], axis = 1).reset_index()  
+                                site__in = Site.objects.filter(feature_type__name__in = ["WWTP", 
+                                                                                        "Riverflow", 
+                                                                                        "Network"])).values())).set_index("date")
+    
+    others = others.groupby(["site_id", "variable_id", "method_id"]).resample("D").mean().drop(["site_id", 
+                                                                                                "variable_id", 
+                                                                                                "method_id"], 
+                                                                                               axis = 1).reset_index()  
     
     # delete high frequency data
     FeatureData.objects.filter(date__date=yesterday).delete()
