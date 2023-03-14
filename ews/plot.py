@@ -1,13 +1,11 @@
 import numpy
 import plotly.express as px
 import plotly.graph_objects as go
-
 from plotly.offline import plot
-
 from .messages import Message
 
-def get_plot_specification_details(plot_name = None):
-    # TODO: Read this from a yaml file (?)
+
+def get_plot_specification_details(plot_name=None):
     specs = {
         'barplot_feature_data_1': {
             'traces': {
@@ -21,8 +19,7 @@ def get_plot_specification_details(plot_name = None):
                 'font_color': 'black',
                 'font': {'size': 14},
                 'xaxis_title': 'Date',
-                'yaxis_title': 'Value' # labelpoint.variable.name + ' ['+ labelpoint.variable.unit.abbreviation + ']',
-                #'markersize': 12
+                'yaxis_title': 'Value'
             }
         },
         'barplot_feature_data_2': {
@@ -35,7 +32,7 @@ def get_plot_specification_details(plot_name = None):
         },
         'scatter_plot_model_fit': {
             'scatter': {
-                'color_discrete_sequence': ['#212c52','#75c3ff'],
+                'color_discrete_sequence': ['#212c52', '#75c3ff'],
             },
             'layout': {
                 'font_family': 'Helvetica Neue, Helvetica, Arial, sans-serif',
@@ -43,7 +40,6 @@ def get_plot_specification_details(plot_name = None):
                 'title': {'text': 'Model fit of Random Forest model'},
                 'xaxis_title': 'measured data (sample)',
                 'yaxis_title': 'fitted values (in sample fit)',
-                #'markersize': 12,
                 'legend': {
                     'yanchor': 'top',
                     'title': None,
@@ -54,10 +50,6 @@ def get_plot_specification_details(plot_name = None):
             },
             'traces': {
                 'marker_size': 8,
-                #['#75c3ff', 'red'],
-                #'marker_line_color': '#212c52',
-                #'marker_line_width': 1.5,
-                #'opacity': 1
             }
         },
         'barplot_importances': {
@@ -65,7 +57,6 @@ def get_plot_specification_details(plot_name = None):
                 'font_family': 'Helvetica Neue, Helvetica, Arial, sans-serif',
                 'font_color': 'black',
                 'title': {'text': Message.FEATURE_IMPORTANCE_OF_RF_MODEL},
-                #'markercolor': '#212c52'
             },
             'traces': {
                 'marker_color': '#75c3ff',
@@ -81,16 +72,19 @@ def get_plot_specification_details(plot_name = None):
     # Otherwise return the specification for plot_name
     return specs[plot_name]
 
+
 def create_barplot_feature_data_1(df, labelpoint, spec):
     fig = px.bar(df, 'date', 'value',  opacity=1)
     fig.update_traces(**spec['traces'])
     fig.update_layout(**spec['layout'])
     return plot_to_div(fig)
 
+
 def create_barplot_feature_data_2(df, spec):
     fig = px.bar(df, 'date', 'value',  opacity=1)
     fig.update_traces(**spec['traces'])
     return plot_to_div(fig)
+
 
 def create_scatter_plot_model_fit(df, spec):
     fig = px.scatter(df, x='meas', y='pred', color='split', **spec['scatter'])
@@ -98,17 +92,19 @@ def create_scatter_plot_model_fit(df, spec):
     fig.update_traces(**spec['traces'])
     return plot_to_div(fig)
 
+
 def create_barplot_importances(df, spec):
     fig = px.bar(df, y='feature', x='importance', orientation='h')
     fig.update_layout(**spec['layout'])
     fig.update_traces(**spec['traces'])
     return plot_to_div(fig)
 
+
 def plot_to_div(fig):
-    return  plot(fig, output_type='div')
+    return plot(fig, output_type='div')
+
 
 def get_plot_specification_predictions():
-    # TODO: Read this from a yaml file (?)
     rgba_grey_1 = 'rgba(68, 68, 68, 1)'
     rgba_grey_0_1 = 'rgba(68, 68, 68, 0.1)'
     return {
@@ -139,6 +135,7 @@ def get_plot_specification_predictions():
         }
     }
 
+
 def plot_predicitons(df):
 
     specs = get_plot_specification_predictions()
@@ -150,11 +147,12 @@ def plot_predicitons(df):
         plot_predictions_measurements(df, specs['measurements'])
     ]
 
-    layout_spec=specs['layout']
+    layout_spec = specs['layout']
 
     layout = go.Layout(title=layout_spec['title'], yaxis=layout_spec['yaxis'])
 
     return go.Figure(data=data, layout=layout)
+
 
 def plot_predictions_upper_bound(df, plot_spec):
     return go.Scatter(
@@ -164,8 +162,8 @@ def plot_predictions_upper_bound(df, plot_spec):
         name=plot_spec['name'],
         line=plot_spec['line'],
         fillcolor=plot_spec['fillcolor']
-        #, fill='tonexty'
     )
+
 
 def plot_predictions_mean(df, plot_spec):
     return go.Scatter(
@@ -176,8 +174,8 @@ def plot_predictions_mean(df, plot_spec):
         marker=plot_spec['marker'],
         line=plot_spec['line'],
         fillcolor=plot_spec['fillcolor']
-        #, fill='tonexty'
     )
+
 
 def plot_predictions_measurements(df, plot_spec):
     return go.Scatter(
@@ -188,8 +186,8 @@ def plot_predictions_measurements(df, plot_spec):
         marker=plot_spec['marker'],
         line=plot_spec['line'],
         fillcolor=plot_spec['fillcolor']
-        #, fill='tonexty'
     )
+
 
 def plot_predictions_lower_bound(df, plot_spec):
     return go.Scatter(
