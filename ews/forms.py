@@ -16,7 +16,8 @@ class BathingSpotForm(forms.ModelForm):
         self.fields['feature_type'].empty_label = None
         self.fields['feature_type'].help_text = "This field has a"\
                                                 "default value"
-        self.fields['feature_type'].queryset = FeatureType.objects.filter(name="BathingSpot")
+        self.fields['feature_type'].queryset = (FeatureType.objects.
+                                                filter(name="BathingSpot"))
         self.helper = FormHelper()
 
     class Meta:
@@ -33,7 +34,8 @@ class SiteForm(forms.ModelForm):
         self.fields['feature_type'].empty_label = None
         self.fields['feature_type'].help_text = "Please select"\
                                                 "feature type"
-        self.fields['feature_type'].queryset = FeatureType.objects.exclude(name="BathingSpot")
+        self.fields['feature_type'].queryset = (FeatureType.objects.
+                                                exclude(name="BathingSpot"))
         self.fields['geom'].label = "<strong> Select location </strong>"
         self.fields['feature_type'].label = "<strong> Define which type "\
                                             "of variable data the site"\
@@ -69,9 +71,13 @@ class PredictionModelForm(forms.ModelForm):
                                     "name </strong>"
         self.fields['site'].empty_label = None
         self.fields['site'].help_text = "Please select the bathing water for"\
-                                        "which you want to create a prediction model"
-        self.fields['site'].queryset = Site.objects.filter(owner=user,
-                                                           feature_type__in=FeatureType.objects.filter(name="BathingSpot"))
+                                        "which you want to create a "\
+                                        "prediction model"
+        self.fields['site'].queryset = (Site.objects.
+                                        filter(owner=user,
+                                               feature_type__in=FeatureType.
+                                               objects.
+                                               filter(name="BathingSpot")))
         self.fields['area'].queryset = SelectArea.objects.filter(user=user)
         self.fields['area'].required = True
 
@@ -89,9 +95,12 @@ class PredictionModelForm2(forms.Form):
 
     def __init__(self, user, *args, **kwargs):
         super(PredictionModelForm2, self).__init__(*args, **kwargs)
-        self.fields['rain_site'].queryset = Site.objects.filter(owner=user, feature_type=1)
-        self.fields['flow_site'].queryset = Site.objects.filter(owner=user, feature_type=4)
-        self.fields['bathing_spot'].queryset = BathingSpot.objects.filter(user=user)
+        self.fields['rain_site'].queryset = Site.objects.filter(owner=user,
+                                                                feature_type=1)
+        self.fields['flow_site'].queryset = Site.objects.filter(owner=user,
+                                                                feature_type=4)
+        self.fields['bathing_spot'].queryset = BathingSpot.objects.\
+            filter(user=user)
         self.helper = FormHelper()
 
 
