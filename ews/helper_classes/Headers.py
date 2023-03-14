@@ -2,6 +2,7 @@ from requests.structures import CaseInsensitiveDict
 
 from ..utils import Utils
 
+
 class Headers:
 
     '''
@@ -34,7 +35,7 @@ class Headers:
     @classmethod
     def accept_json(cls):
         return cls.accept('application/json')
-        
+
     @classmethod
     def content_type_application_json(cls):
         return cls.content_type('application/json')
