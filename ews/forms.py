@@ -36,12 +36,12 @@ class SiteForm(forms.ModelForm):
                                                 "feature type"
         self.fields['feature_type'].queryset = (FeatureType.objects.
                                                 exclude(name="BathingSpot"))
-        self.fields['geom'].label = "<strong> Select location </strong>"
-        self.fields['feature_type'].label = "<strong> Define which type "\
+        self.fields['geom'].label = "Select location"
+        self.fields['feature_type'].label = "Define which type "\
                                             "of variable data the site"\
-                                            "provides </strong>"
-        self.fields['name'].label = "<strong> Give the site an "\
-                                    "explanatory name </strong>"
+                                            " provides"
+        self.fields['name'].label = "Give the site an "\
+                                    "explanatory name"
         self.helper = FormHelper()
 
     class Meta:
@@ -62,15 +62,14 @@ class PredictionModelForm(forms.ModelForm):
         self.fields['area'].help_text = "Please select the areas you've "\
                                         "created, which you want to use "\
                                         "to model calibration"
-        self.fields['area'].label = "<strong> Select features from defined"\
-                                    "feature groups </strong>"
-        self.fields['site'].label = "<strong> Select a bathing spot for"\
-                                    "which the model should be calibrated"\
-                                    "</strong>"
-        self.fields['name'].label = "<strong> Give the model an explanatory"\
-                                    "name </strong>"
+        self.fields['area'].label = "Select features from defined "\
+                                    "feature groups"
+        self.fields['site'].label = " Select a bathing spot for "\
+                                    "which the model should be calibrated"
+        self.fields['name'].label = "Give the model an explanatory "\
+                                    "name"
         self.fields['site'].empty_label = None
-        self.fields['site'].help_text = "Please select the bathing water for"\
+        self.fields['site'].help_text = "Please select the bathing water for "\
                                         "which you want to create a "\
                                         "prediction model"
         self.fields['site'].queryset = (Site.objects.

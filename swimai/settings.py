@@ -54,6 +54,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'ews',
     'crispy_forms',
+    'crispy_bootstrap4',
     'django.contrib.admin',
     'import_export',
     'django.contrib.auth',

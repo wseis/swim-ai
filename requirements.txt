@@ -19,6 +19,7 @@ django-extensions
 shapely
 geojson
 django-crispy-forms
+crispy-bootstrap4
 sklearn
 celery
 redis
