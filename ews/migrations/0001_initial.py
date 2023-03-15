@@ -138,3 +138,4 @@ class Migration(migrations.Migration):
             },
         ),
     ]
+# flake8: noqa
