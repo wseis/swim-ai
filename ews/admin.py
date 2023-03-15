@@ -48,7 +48,7 @@ class predictionAdmin(admin.ModelAdmin):
 
 admin.site.register(BathingSpot, BathingSpotAdmin)
 admin.site.register(Site, SiteAdmin)
-admin.site.register(Variable)
+# admin.site.register(Variable)
 admin.site.register(SelectArea, SelectAreaAdmin)
 admin.site.register(PredictionModel)
 admin.site.register(FeatureType, FeatureTypeAdmin)
