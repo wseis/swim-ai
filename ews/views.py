@@ -554,7 +554,7 @@ def model_fit(request, model_id):
     df_test['aboveP2_5'] = df_test['meas'] >= df_test['P2_5']
     df_test['measured_contamination'] = df_test['meas'] >= numpy.log10(1800)
     df_test['predicted_contamination'] = df_test['P90'] >= numpy.log10(900)
-    df_table = df_test[df_test['meas'].isna() == False]
+    df_table = df_test[df_test['meas'].isna() is False]
     ct_total = pandas.crosstab(df_table['predicted_contamination'],
                                df_table['measured_contamination'])
     ct_rel = pandas.crosstab(df_table['predicted_contamination'],
@@ -630,7 +630,7 @@ class ImportNewDataView(View):
 
         try:
             Site.objects.get(id=site_id)
-        except:
+        except Site.DoesNotExist:
             return json_response_status('forbidden', status=402)
 
         if not Site.objects.get(id=site_id).get_subscription_url() == slug:
@@ -657,7 +657,7 @@ class ImportNewDataView(View):
 
         try:
             fd.save()
-        except:
+        except fd.DoesNotExist:
             return json_response_error('data import failed')
 
         return json_response_status('ok')
