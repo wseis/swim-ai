@@ -1,9 +1,9 @@
 import logging
-
 from pprint import pformat
 
 # Obtain a logger instance
 logger = logging.getLogger('debug')
+
 
 class Payload():
 
@@ -22,7 +22,8 @@ class Payload():
     @classmethod
     def water_quality_predicted(cls, model_id, model_name):
         return {
-            'id': 'urn:ngsi-ld:WaterQualityPredicted:' + str(model_id) + ':' + str(model_name),
+            'id': ('urn:ngsi-ld:WaterQualityPredicted:' +
+                   str(model_id) + ':' + str(model_name)),
             'type': 'WaterQualityPredicted',
             'precipitation': cls.float_value(0),
             'dateCreated': cls.default_date_value(),
@@ -43,7 +44,7 @@ class Payload():
             'flow': cls.float_value(0),
             'dateObserved': cls.default_date_value()
         }
-    
+
     @classmethod
     def weather_observed(cls, broker_id, broker_type):
         return {
@@ -65,15 +66,16 @@ class Payload():
     @classmethod
     def get_attribute_names(cls, payload_fun):
         '''
-        Which attribute names (except for "id" and "type") does the object provide that 
+        Which attribute names (except for "id" and "type")
+        does the object provide that
         is returned by the function given in payload_fun?
         '''
-        # Call the function with fake values for broker_id and broker_type. 
+        # Call the function with fake values for broker_id and broker_type.
         payload = payload_fun(broker_id=-1, broker_type="none")
 
         # Return the names of the keys, excluding "id" and "type"
         attributes = list(payload.keys())[2:]
 
-        logger.debug('Determined attribute names: '+ pformat(attributes))
+        logger.debug('Determined attribute names: ' + pformat(attributes))
 
         return attributes
