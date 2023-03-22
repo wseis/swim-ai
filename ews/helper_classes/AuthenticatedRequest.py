@@ -5,7 +5,6 @@ from ..utils import Utils
 # Obtain a logger instance
 logger = logging.getLogger('debug')
 
-
 class AuthenticatedRequest:
 
     @classmethod
@@ -18,8 +17,7 @@ class AuthenticatedRequest:
     # - post_authenticated()
     # - delte_authenticated()
     #
-    # require that the classes that inherit from
-    # this class (e.g. CBroker, KRock)
+    # require that the classes that inherit from this class (e.g. CBroker, KRock)
     # implement the function
     #
     # - request_authenticated()

@@ -15,7 +15,6 @@ from ..utils import Utils
 # Obtain a logger instance
 logger = logging.getLogger('debug')
 
-
 class KRockError(Exception):
     """Exception raised for errors reported by KRock."""
 
@@ -25,7 +24,6 @@ class KRockError(Exception):
 
     def __str__(self):
         return f'{self.message}'
-
 
 class KRock(AuthenticatedRequest):
 
@@ -40,8 +38,7 @@ class KRock(AuthenticatedRequest):
         'app_roles': '{app}/roles',
         'app_permissions': '{app}/permissions',
         'app_user_role': '{app_users}/{user_id}/roles/{role_id}',
-        'app_role_permissions': ('{app_roles}/{role_id}/'
-                                 'permissions/{permission_id}'),
+        'app_role_permissions': '{app_roles}/{role_id}/permissions/{permission_id}',
         'api_version': '1'
     }
 
@@ -111,8 +108,7 @@ class KRock(AuthenticatedRequest):
         )
 
     @classmethod
-    def create_user_and_role(cls, app_id, username_keyrock,
-                             pw_keyrock, email_keyrock):
+    def create_user_and_role(cls, app_id, username_keyrock, pw_keyrock, email_keyrock):
 
         # Create a user
         user = cls.create_user(
@@ -149,8 +145,7 @@ class KRock(AuthenticatedRequest):
         return user_role.json()
 
     @classmethod
-    def create_and_assign_permissions(cls, app_id, broker_id,
-                                      resource, resource_owner):
+    def create_and_assign_permissions(cls, app_id, broker_id, resource, resource_owner):
 
         # Ask K-Rock for all roles that are defined for this app
         response_roles = cls.get_roles(app_id=app_id)
@@ -158,8 +153,8 @@ class KRock(AuthenticatedRequest):
         # Convert to data frame
         df_roles = pandas.json_normalize(response_roles.json()['roles'])
 
-        # permissions = []
-        # for site in site.iterator():
+        #permissions = []
+        #for site in site.iterator():
 
         # Tell K-Rock that the context broker is allowed to use this app (?)
         response_permission = cls.set_permissions(
@@ -168,8 +163,8 @@ class KRock(AuthenticatedRequest):
             resource=resource
         )
 
-        # permissions.append(response.json()['permission']['id'])
-        # for permission in permissions:
+        #permissions.append(response.json()['permission']['id'])
+        #for permission in permissions:
 
         # Let K-Rock connect role and permission (?)
         response = cls.set_role_permissions(
@@ -184,9 +179,7 @@ class KRock(AuthenticatedRequest):
     def create_user(cls, username, email, password):
         return cls.post_authenticated(
             cls.lookup_url('users'),
-            data=json.dumps({'user': {'username': username,
-                                      'email': email,
-                                      'password': password}})
+            data=json.dumps({'user': {'username': username, 'email': email, 'password': password}})
         )
 
     @classmethod
@@ -205,26 +198,23 @@ class KRock(AuthenticatedRequest):
     @classmethod
     def assign_user_to_role(cls, app_id, user_id, role_id):
         return cls.post_authenticated(
-            cls.lookup_url('app_user_role', app_id=app_id,
-                           user_id=user_id, role_id=role_id)
+            cls.lookup_url('app_user_role', app_id=app_id, user_id=user_id, role_id=role_id)
         )
 
     @classmethod
     def set_permissions(cls, app_id, name, resource):
         return cls.post_authenticated(
             cls.lookup_url('app_permissions', app_id=app_id),
-            data=json.dumps({'permission': {'name': name,
-                                            'action': 'PATCH',
-                                            'resource': resource}})
+            data=json.dumps({'permission': {'name': name, 'action': 'PATCH', 'resource': resource}})
         )
 
     @classmethod
     def set_role_permissions(cls, app_id, role_id, permission_id):
         return cls.post_authenticated(
             cls.lookup_url(
-                'app_role_permissions',
-                app_id=app_id,
-                role_id=role_id,
+                'app_role_permissions', 
+                app_id=app_id, 
+                role_id=role_id, 
                 permission_id=permission_id
             )
         )
