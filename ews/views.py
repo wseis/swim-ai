@@ -265,26 +265,28 @@ class AddSiteView(View):
 
         if broker_type == 'WaterObserved':
             CBroker.post_water_observed(broker_id, broker_type)
-            CBroker.subscribe_water_observed(broker_id,
+            x = CBroker.subscribe_water_observed(broker_id,
                                              broker_type,
                                              subscription_url)
         elif new_site.feature_type.name in ['Rainfall']:
             broker_type = 'WeatherObserved'
             CBroker.post_weather_observed(broker_id, broker_type)
-            CBroker.subscribe_weather_observed(broker_id,
+            x = CBroker.subscribe_weather_observed(broker_id,
                                                broker_type,
                                                subscription_url)
         else:
             broker_type = 'WaterQualityObserved'
             CBroker.post_water_quality_observed(broker_id, broker_type)
-            CBroker.subscribe_water_quality_observed(broker_id,
+            x = CBroker.subscribe_water_quality_observed(broker_id,
                                                      broker_type,
                                                      subscription_url)
-        df = pandas.json_normalize(CBroker.get_subscriptions().json())
-
-        new_site.subscription_id = df.loc[df.description == broker_id]\
-            .id.to_string().split(' ')[-1]
-
+        # df = pandas.json_normalize(CBroker.get_subscriptions().json())
+        # new_site.subscription_id = df.loc[df.description == broker_id]\
+         #   .id.to_string().split(' ')[-1]
+         
+        new_site.subscription_id = x.headers["location"].split("/")[-1]
+        new_site.save()
+        
         KRock.create_and_assign_permissions(
             app_id=config('APP_ID'),
             broker_id=broker_id,
@@ -292,7 +294,7 @@ class AddSiteView(View):
                                         broker_id=broker_id),
             resource_owner=new_site.owner.username
         )
-        new_site.save()
+        
         return redirect_reverse('ews:sites')
 
     def get(self, request):
