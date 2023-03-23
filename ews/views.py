@@ -287,12 +287,23 @@ class AddSiteView(View):
         new_site.subscription_id = x.headers["location"].split("/")[-1]
         new_site.save()
         
+        # allow user to change data in the context Broker
         KRock.create_and_assign_permissions(
             app_id=config('APP_ID'),
             broker_id=broker_id,
+            action="PATCH",
             resource=CBroker.lookup_url('rel_broker_attributes',
                                         broker_id=broker_id),
             resource_owner=new_site.owner.username
+        )
+        # allow SWIM:AI to collect data from the context Broker
+        KRock.create_and_assign_permissions(
+            app_id=config('APP_ID'),
+            action="GET",
+            broker_id=broker_id,
+            resource=CBroker.lookup_url('rel_broker_attributes',
+                                        broker_id=broker_id),
+            resource_owner=config('KEYROCK_ADMIN_NAME') # use bett admin name
         )
         
         return redirect_reverse('ews:sites')
