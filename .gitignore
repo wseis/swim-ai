@@ -128,3 +128,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 .env
+notebooks
+db_paris_daily_final.sqlite3

@@ -4,7 +4,6 @@ from django.urls import reverse
 from .helper_classes.Payload import Payload
 from .utils import Utils
 
-# Create your tests here.
 
 class IndexViewTests(TestCase):
 
@@ -20,6 +19,7 @@ class IndexViewTests(TestCase):
         response = self.client.get(reverse('ews:sites'))
         self.assertEqual(response.status_code, 302)
 
+
 # Test with python manage.py test -k UtilsTestCase
 class UtilsTestCase(TestCase):
 
@@ -34,8 +34,10 @@ class UtilsTestCase(TestCase):
         """String fields are correctly resolved"""
         f = Utils.lookup_recursively
         self.assertEqual(f('greeting', self.dict), 'Hello, {first_name} Bunny')
-        self.assertEqual(f('greeting', self.dict, first_name = 'Bugs'), 'Hello, Bugs Bunny')
+        self.assertEqual(f('greeting', self.dict,
+                           first_name='Bugs'), 'Hello, Bugs Bunny')
         self.assertEqual(f('x', self.dict), "No such key in dict: 'x'")
+
 
 # Test with python manage.py test -k PayloadTestCase
 class PayloadTestCase(TestCase):

@@ -47,6 +47,27 @@ DEBUG = True
    #     }
    # }
 #}
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'django_debug.log',
+        },
+    },
+    'loggers': {
+        'debug': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True
+        }
+    }
+}
 
 ALLOWED_HOSTS = []
 
@@ -54,6 +75,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'ews',
     'crispy_forms',
+    'crispy_bootstrap4',
     'django.contrib.admin',
     'import_export',
     'django.contrib.auth',
@@ -65,7 +87,7 @@ INSTALLED_APPS = [
     'django_extensions',
     'leaflet',
     'djgeojson',
-    'django_celery_beat',     
+    'django_celery_beat',
 ]
 
 # deactivate this for production
@@ -84,11 +106,11 @@ ROOT_URLCONF = 'swimai.urls'
 
 LEAFLET_CONFIG = {
     # conf here
-'DEFAULT_CENTER': (48.85, 2.400862),
-'DEFAULT_ZOOM': 5,
-'MIN_ZOOM': 3,
-'MAX_ZOOM': 18,
-'FORCE_IMAGE_PATH': True
+    'DEFAULT_CENTER': (48.85, 2.400862),
+    'DEFAULT_ZOOM': 5,
+    'MIN_ZOOM': 3,
+    'MAX_ZOOM': 18,
+    'FORCE_IMAGE_PATH': True
 }
 
 # Make sure that there is a .env file in the project folder that defines
@@ -115,37 +137,38 @@ TEMPLATES = [
 WSGI_APPLICATION = 'swimai.wsgi.application'
 LOGIN_REDIRECT_URL = "/"
 
-#AUTH_USER_MODEL = 'ews.User'
+# AUTH_USER_MODEL = 'ews.User'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-         'NAME': os.path.join(BASE_DIR, 'db_paris_daily_final.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'db_paris_daily_final.sqlite3'),
         # 'NAME': os.path.join(BASE_DIR, 'db_paris_daily.sqlite3'),
     }
 }
 
-#Crispy forms
+# Crispy forms
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+ {
+  'NAME': 'django.contrib.auth.password_validation' +
+  '.UserAttributeSimilarityValidator',
+ },
+ {
+  'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+ },
+ {
+  'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+ },
+ {
+  'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+ },
 ]
 
 # Internationalization
@@ -169,27 +192,15 @@ STATIC_URL = '/static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 # Celery configuration
 
-#CELERY_RESULT_BACKEND = 'django-db'
-#CELERY_BROKER_URL = "redis://localhost:6379/0"
+# CELERY_RESULT_BACKEND = 'django-db'
+# CELERY_BROKER_URL = "redis://localhost:6379/0"
 
-# Celery Broker - Redis  
-#CELERY_RESULT_BACKEND = 'redis://localhost:6379'  
-CELERY_ACCEPT_CONTENT = ['application/json']  
-CELERY_TASK_SERIALIZER = 'json'  
-CELERY_RESULT_SERIALIZER = 'json'  
+# Celery Broker - Redis
+# CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
 
-from celery.schedules import crontab   
-#from ews.tasks import contextBroker
-CELERY_BROKER_URL = 'redis://localhost:6379' 
-CELERY_TIMEZONE = 'Europe/Berlin'   
-# Let's make things happen 
-#CELERY_BEAT_SCHEDULE = {
- #'send-summary-every-hour': {
-  #     'task': 'contextBroker',
-        # There are 4 ways we can handle time, read further 
-   #    'schedule': 10.0,
-        # If you're using any arguments
-       
-    #},
-          
-#}
+# from ews.tasks import contextBroker
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_TIMEZONE = 'Europe/Berlin'

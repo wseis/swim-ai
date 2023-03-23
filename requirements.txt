@@ -2,6 +2,7 @@ django
 tablib
 django-import-export
 django-crispy-forms
+crispy_bootstrap4
 plotly
 pandas
 django-pandas
@@ -19,6 +20,7 @@ django-extensions
 shapely
 geojson
 django-crispy-forms
+crispy-bootstrap4
 sklearn
 celery
 redis
