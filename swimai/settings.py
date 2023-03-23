@@ -26,27 +26,27 @@ DEBUG = True
 
 # Added by hsonne, taken from:
 # https://docs.djangoproject.com/en/4.0/topics/logging/
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': True,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': 'django_debug.log',
-        },
-    }    ,
-    'loggers': {
-        'debug': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': True
-        }
-    }
-}
+#LOGGING = {
+ #   'version': 1,
+  #  'disable_existing_loggers': True,
+   # 'handlers': {
+   #     'console': {
+   #         'class': 'logging.StreamHandler',
+   #     },
+   #     'file': {
+   #         'level': 'DEBUG',
+   #         'class': 'logging.FileHandler',
+   #         'filename': 'django_debug.log',
+   #     },
+   # }    ,
+   # 'loggers': {
+   #     'debug': {
+   #         'handlers': ['console'],
+   #         'level': 'DEBUG',
+   #         'propagate': True
+   #     }
+   # }
+#}
 
 ALLOWED_HOSTS = []
 
@@ -69,7 +69,7 @@ INSTALLED_APPS = [
 ]
 
 # deactivate this for production
-os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
+#os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
