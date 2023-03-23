@@ -152,6 +152,7 @@ class KRock(AuthenticatedRequest):
                                       app_id,
                                       broker_id,
                                       resource,
+                                      action,
                                       resource_owner):
 
         # Ask K-Rock for all roles that are defined for this app
@@ -167,7 +168,8 @@ class KRock(AuthenticatedRequest):
         response_permission = cls.set_permissions(
             app_id=app_id,
             name=broker_id,
-            resource=resource
+            resource=resource,
+            action=action
         )
 
         # permissions.append(response.json()['permission']['id'])
@@ -214,11 +216,11 @@ class KRock(AuthenticatedRequest):
         )
 
     @classmethod
-    def set_permissions(cls, app_id, name, resource):
+    def set_permissions(cls, app_id, name, resource, action):
         return cls.post_authenticated(
             cls.lookup_url('app_permissions', app_id=app_id),
             data=json.dumps({'permission': {'name': name,
-                                            'action': 'PATCH',
+                                            'action': action,
                                             'resource': resource}})
         )
 
