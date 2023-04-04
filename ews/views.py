@@ -718,3 +718,8 @@ def api_get_broker_urls(request, model_id):
         return json_response_error(Message.CHANGE_POST_NOT_ALLOWED)
 
     return JsonResponse(get_site_urls(model), status=200, safe=False)
+
+def inbound(request):
+    def post(self, request):
+        print(request.body)
+    return JsonResponse(status=200)
