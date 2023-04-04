@@ -5,6 +5,7 @@ import numpy
 import pandas
 import pickle
 import uuid
+import pytz
 
 from dateutil import parser
 from decouple import config
@@ -49,6 +50,8 @@ from .models import PredictionModel
 from .models import SelectArea
 from .models import Site
 from .models import User
+from .models import EmailAlert
+
 
 from .plot import get_plot_specification_details
 from .plot import create_barplot_feature_data_1
@@ -719,6 +722,54 @@ def api_get_broker_urls(request, model_id):
 
     return JsonResponse(get_site_urls(model), status=200, safe=False)
 
+
+import email as email
 class Inbound(View):
     def post(self, request):
-        print(request.body)
+        string = request.read()
+        #print(string)
+        msg = email.message_from_bytes(string)
+
+        d = {}
+        tz = pytz.timezone('Europe/Berlin')
+
+        content = msg.as_string().splitlines()
+        for i in range(len(content)):
+            if "Trigger Time" in content[i] and "<" not in content[i]:
+                
+                key = content[i].split(": ")
+                
+                timestring = key[1].split(" ")
+                timestring = datetime.datetime.strptime(timestring[0] + " " + timestring[1],  "%d.%m.%Y %H:%M:%S")
+                timestring = timestring.replace(tzinfo=tz)
+                #timestring = timestring.timetz(tz)
+                if(len(key) == 2):
+                    d[key[0]] = timestring
+            
+            if "Start Time" in content[i] and "<" not in content[i]:
+            
+                key = content[i].split(": ")
+                timestring = key[1].split(" ")
+                timestring = datetime.datetime.strptime(timestring[0] + " " + timestring[1],  "%d.%m.%Y %H:%M:%S")
+                timestring = timestring.replace(tzinfo=tz)
+                
+                if(len(key) == 2):
+                    d[key[0]] = timestring
+            
+            if "Target" in content[i] and "<" not in content[i]:
+            
+                key = content[i].split(": ")
+            
+                key2 = key[1].split("_")
+            
+                if(len(key) == 2):
+                    d[key[0]] = key[1]
+                    d["Catchment"] = key2[-1]
+        
+        alert = EmailAlert()
+        alert.start_time = d["Start Time"]
+        alert.trigger.time = d["Trigger Time"]
+        alert.target = d["Target"]
+        alert.catchment = d["Catchment"]
+        alert.save()
+ 

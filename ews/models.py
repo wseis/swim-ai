@@ -180,3 +180,15 @@ class Prediction(models.Model):
 
     def __str__(self):
         return f"{self.model}"
+
+
+class EmailAlert(models.Model):
+    start_time = models.DateTimeField()
+    trigger_time = models.DateTimeField()
+    target =  models.CharField(max_length=20)
+    catchment =  models.CharField(max_length=10)
+    
+    def __str__(self):
+        return f"{self.model}"
+
+    
