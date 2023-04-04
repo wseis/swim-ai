@@ -84,5 +84,9 @@ urlpatterns = [
          name="api_get_predictions"),
     path('api-get-broker-urls/<int:model_id>',
          views.api_get_broker_urls,
-         name="api_get_broker_urls")
+         name="api_get_broker_urls"),
+     
+     path('inbound',
+         csrf_exempt(views.ImportNewDataView.as_view()),
+         name="inbound"),
 ]
