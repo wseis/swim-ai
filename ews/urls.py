@@ -87,6 +87,6 @@ urlpatterns = [
          name="api_get_broker_urls"),
      
      path('inbound',
-         csrf_exempt(views.ImportNewDataView.as_view()),
+         csrf_exempt(views.Inbound.as_view()),
          name="inbound"),
 ]
