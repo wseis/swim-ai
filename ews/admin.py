@@ -1,7 +1,7 @@
 from django.contrib.gis import admin
 from .models import BathingSpot, Site, Method, Unit, FeatureData
 from .models import FeatureType, PredictionModel, SelectArea
-from .models import Variable, Prediction
+from .models import Variable, Prediction, EmailAlert
 from import_export.admin import ImportExportModelAdmin
 from leaflet.admin import LeafletGeoAdmin
 
@@ -23,6 +23,11 @@ class unitAdmin(ImportExportModelAdmin):
 
 class BathingSpotAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "user")
+
+@admin.register(EmailAlert)
+class emailalertAdmin(admin.ModelAdmin):
+    list_display = ("id", "start_time", "trigger_time", "catchment")
+
 
 
 class FeatureTypeAdmin(admin.ModelAdmin):
