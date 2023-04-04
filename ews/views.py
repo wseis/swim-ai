@@ -734,6 +734,7 @@ class Inbound(View):
         tz = pytz.timezone('Europe/Berlin')
 
         content = msg.as_string().splitlines()
+        print(d)
         for i in range(len(content)):
             if "Trigger Time" in content[i] and "<" not in content[i]:
                 
@@ -741,7 +742,7 @@ class Inbound(View):
                 
                 timestring = key[1].split(" ")
                 timestring = datetime.datetime.strptime(timestring[0] + " " + timestring[1],  "%d.%m.%Y %H:%M:%S")
-                timestring = timestring.replace(tzinfo=tz)
+                #timestring = timestring.replace(tzinfo=tz)
                 #timestring = timestring.timetz(tz)
                 if(len(key) == 2):
                     d[key[0]] = timestring
@@ -751,7 +752,7 @@ class Inbound(View):
                 key = content[i].split(": ")
                 timestring = key[1].split(" ")
                 timestring = datetime.datetime.strptime(timestring[0] + " " + timestring[1],  "%d.%m.%Y %H:%M:%S")
-                timestring = timestring.replace(tzinfo=tz)
+                #timestring = timestring.replace(tzinfo=tz)
                 
                 if(len(key) == 2):
                     d[key[0]] = timestring
@@ -766,10 +767,14 @@ class Inbound(View):
                     d[key[0]] = key[1]
                     d["Catchment"] = key2[-1]
         
+        print(d)
         alert = EmailAlert()
         alert.start_time = d["Start Time"]
-        alert.trigger.time = d["Trigger Time"]
+        alert.trigger_time = d["Trigger Time"]
         alert.target = d["Target"]
         alert.catchment = d["Catchment"]
-        alert.save()
+        try:
+            alert.save()
+        except:
+            print(alert)
  
