@@ -722,4 +722,3 @@ def api_get_broker_urls(request, model_id):
 class Inbound(View):
     def post(self, request):
         print(request.body)
-    return JsonResponse(status=200)
