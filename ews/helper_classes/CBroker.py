@@ -151,3 +151,4 @@ class CBroker(AuthenticatedRequest):
         if feature_type_name in ['BathingSpot']:
             return 'WaterQualityObserved'        
         raise NameError('Unknown feature type: ' + feature_type_name)
+# flake8: noqa

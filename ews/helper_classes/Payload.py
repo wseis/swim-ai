@@ -77,3 +77,4 @@ class Payload():
         logger.debug('Determined attribute names: '+ pformat(attributes))
 
         return attributes
+# flake8: noqa

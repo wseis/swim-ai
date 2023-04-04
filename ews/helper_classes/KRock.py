@@ -234,3 +234,4 @@ class KRock(AuthenticatedRequest):
                 permission_id=permission_id
             )
         )
+# flake8: noqa

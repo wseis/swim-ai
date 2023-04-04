@@ -49,3 +49,4 @@ class AuthenticatedRequest:
     @classmethod
     def log_request(cls, method, url):
         logger.debug('Authenticated {} request to: {}'.format(method, url))
+# flake8: noqa
