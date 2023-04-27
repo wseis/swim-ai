@@ -780,5 +780,8 @@ class Inbound(View):
  
 
 def dashboard(request):
-    color = '#26BDC7'
-    return render(request, 'ews/dashboard.html')
+    
+
+    return render(request, 'ews/dashboard.html', 
+                  {"value_aquabio": 200,
+                   "date_aquabio": "2023-01-01"})

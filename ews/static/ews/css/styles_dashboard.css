@@ -1,0 +1,192 @@
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+    color: white !important;
+    background-color: #26BDC7 !important;
+    border-color: #26BDC7 !important;
+    }
+  
+  body {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: sans-serif;
+      font-size: 15px;
+    }
+    .grid-container {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: 50px 1fr 50px;
+      background-color: #ebebe9;
+      grid-template-areas:
+        'header'
+        'main'
+        'footer';
+      height: 100vh;
+    }
+    .header {
+      grid-area: header;
+      background-color: #26BDC7;
+    }
+    .main {
+      grid-area: main;
+      background-color: #ebebe9;
+    }
+    .footer {
+      grid-area: footer;
+      background-color: #26BDC7;
+    }
+    /* flexing header and footer*/
+    .header,
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: white;
+      padding: 0 15px;
+    }
+    .header_item{
+      color:white;
+    }
+    /* flexing aside */
+    .logo{
+      display: flex;
+      justify-content: center;
+    }
+   
+    .footer-item{
+      color: white;
+    }
+    .footer-item:hover{
+  
+      color: white;
+      text-decoration: none;
+    }
+    /* Layout for main content overview  and its cards*/
+    .main_overview {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      border: 1px solid;
+      margin: 10px;
+      
+      /* border-bottom: 1px solid #26BDC7; */
+    }
+    .overview_card {
+      flex-basis: 250px;
+      flex-grow: 1;
+      margin: 5px 5px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+      height: 1fr;
+      background-color: #bac726;
+      border-radius: 4px;
+      
+      color: white;
+
+    }
+    .card-title {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem;
+        background-color: #26BDC7;
+        color: white;
+        border-radius: 4px;
+        font-weight: bold;
+        font-style: italic;
+        
+
+    }
+    .tab_link {
+      flex-basis: 250px;
+      flex-grow: 1;
+      margin: 10px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px;
+    }
+    /* Layout for main-cards section // below main_overview */
+    .main_cards {
+      
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(4, fr);
+      grid-template-areas:
+        'card1'
+        'card2'
+        'card3'
+        'card4';
+      grid-gap: 10px;
+      border-radius: 8px;
+    } 
+  
+    .card {
+      padding: 0px;
+      border-radius: 4px;
+      height: 1fr;
+      background-color: #ebebe9;
+      color: #26BDC7;
+      margin: 10px;
+      box-shadow:  8px 8px 8px 8px rgba(0, 0, 0, 0.1);
+        transition: box-shadow 0.2s ease-in-out;
+        backdrop-filter: blur(20px);
+	        -webkit-backdrop-filter: blur(20px);
+    }
+    
+    .card:first-child {
+      grid-area: card1;
+      background-color:#ebebe9;
+      
+    }
+    .card:nth-child(2) {
+      grid-area: card2;
+      background-color:#ebebe9;
+      
+    }
+    .card:nth-child(3) {
+      grid-area: card3;
+      background-color:#ebebe9;
+      
+    }
+    .card:nth-child(4) {
+        grid-area: card4;
+        background-color:#ebebe9;
+        
+      }
+    
+    /* responsive layout */
+    @media only screen and (min-width: 750px) {
+      .grid-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 50px 1fr 50px;
+        background-color: #ebebe9;
+        grid-template-areas:
+          'header'
+          'main'
+          'footer';
+        height: 100vh;
+      }
+      .main {
+        grid-area: main;
+        background-color: #ebebe9;
+        padding: 5%;
+      }
+      .main_cards{
+        display: grid;
+        margin: 10px;
+        height: 60vh;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        grid-template-areas: 
+            'card1 card2'
+            'card3 card4';
+        border-radius: 8px;
+      }
+      
+    
+    }
+    
+    

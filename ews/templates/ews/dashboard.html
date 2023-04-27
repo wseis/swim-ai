@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Bathing Waters</title>
+    <link rel = "stylesheet" href = "{%static 'ews/css/styles_dashboard.css' %}">     
+    <script src="https://cdn.plot.ly/plotly-2.14.0.min.js"></script>
+    
+  </head>
+  <body>
+    <div class="grid-container">
+      <header class="header">
+        <div class="header_search"><strong contenteditable >Dashboard Spreekanal</strong></div>
+        <div class="header_avatar"></div>
+      </header>
+      <main class="main">
+        <div class="main_cards">
+            <div class="card" id = "tester">
+                <div class= "card-title">E.coli</div> 
+                <div class="main-overview">
+                    <div class="overview_card">
+                        <div>Aquabio:</div>
+                        <div>{{value_aquabio}}</div>
+                        <div>{{date_aquabio}}</div>
+                    </div>
+                    <div class="overview_card">
+                        <div>Labor</div>
+                        <div>{{value_lab}}</div>
+                        <div>{{date_lab}}</div>
+                    
+                    </div>
+                    <div class="overview_card">
+                        <div>Vorhersage:</div>
+                        <div>{{value_prediction}}</div>
+                        <div>{{date_prediction}}</div>
+                    
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class= "card-title">Durchfluss</div> 
+                <div class="main-overview">
+                    <div class="overview_card">
+                        Durchlfuss:
+                    </div>
+                    <div class="overview_card">
+                        Fließzeit:
+                    </div>
+                    <div class="overview_card">
+                        Abgeflossen seit letztem CSO:
+                    </div>
+                </div>
+            </div>
+            <div class="card">
+                <div class= "card-title">Kanalnetz</div> 
+                <div class="main-overview">
+                    <div class="overview_card">
+                        Bln IIIa:
+                    </div>
+                    <div class="overview_card">
+                        Bln V:
+                    </div>
+                    <div class="overview_card">
+                        Bln XII:
+                    </div>
+                </div>
+            </div>
+            <div class="card"> 
+                <div class= "card-title">Regen</div> 
+                <div class="main-overview">
+                    <div class="overview_card">
+                        Heute:
+                    </div>
+                    <div class="overview_card">
+                        Gestern:
+                    </div>
+                    <div class="overview_card">
+                        Vorgestern:
+                    </div>
+                </div>
+            </div>
+        </div>
+      </main>
+      <footer class="footer">
+        <div class="footer_copyright"></div>
+        <div class="footer_byline"></div>
+      </footer>
+    </div>
+    
+  </body>
+</html>
