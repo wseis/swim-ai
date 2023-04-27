@@ -781,7 +781,24 @@ class Inbound(View):
 
 def dashboard(request):
     
+    # getting aquabio data
+    
+    # get email alerts
+    bln_IIIa = EmailAlert.objects.filter(catchment= "Bln IIIa").order_by('-trigger_time').first()
+    bln_V = EmailAlert.objects.filter(catchment= "Bln V").order_by('-trigger_time').first()
+    bln_XII = EmailAlert.objects.filter(catchment= "Bln XII").order_by('-trigger_time').first()
+    
+    
+    
+
 
     return render(request, 'ews/dashboard.html', 
                   {"value_aquabio": 200,
-                   "date_aquabio": "2023-01-01"})
+                   "date_aquabio": "2023-01-01",
+                   "value_lab": 200,
+                   "date_lab": "2023-01-01",
+                   "value_prediction": 200,
+                   "bln_III": bln_IIIa,
+                   "bln_V": bln_V,
+                   "bln_XII": bln_XII,
+                   "date_prediction": "2023-01-01"})
