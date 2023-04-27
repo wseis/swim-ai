@@ -89,4 +89,8 @@ urlpatterns = [
      path('inbound',
          csrf_exempt(views.Inbound.as_view()),
          name="inbound"),
+
+     path('dashboard',
+         views.dashboard,
+         name="dashboard"),
 ]

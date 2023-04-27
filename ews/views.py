@@ -781,4 +781,4 @@ class Inbound(View):
 
 def dashboard(request):
     color = '#26BDC7'
-    pass
+    return render(request, 'ews/dashboard.html')
