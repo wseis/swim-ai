@@ -778,3 +778,7 @@ class Inbound(View):
         except:
             print(alert)
  
+
+def dashboard(request):
+    color = '#26BDC7'
+    pass
