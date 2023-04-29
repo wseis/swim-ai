@@ -66,40 +66,22 @@
                         <div>Bln V:</div>
                         <div>{{bln_V.trigger_time}}</div>
                         <div>{{fds}}</div>
-                    
                     </div>
                     <div class="overview_card">
                         <div>Bln XII:</div>
                         <div>{{bln_XII.trigger_time}}</div>
-                        <div>{{fds}}</div>
-                    
+                        <div>{{fds}}</div>                  
                     </div>
                 </div>
             </div>
             <div class="card"> 
                 <div class= "card-title">Regen</div> 
                 <div class="main-overview">
+                    {% for r in radolan %}
                     <div class="overview_card">
-                        Heute:
+                        <div>{{ r.date }} :</div><div> {{ r.value}}</div>
                     </div>
-                    <div class="overview_card">
-                        Gestern:
-                    </div>
-                    <div class="overview_card">
-                        Vorgestern:
-                    </div>
-                    <div class="overview_card">
-                        Vorgestern:
-                    </div>
-                    <div class="overview_card">
-                        Vorgestern:
-                    </div>
-                    <div class="overview_card">
-                        Vorgestern:
-                    </div>
-                    <div class="overview_card">
-                        Vorgestern:
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>

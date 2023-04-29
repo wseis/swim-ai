@@ -787,10 +787,9 @@ def dashboard(request):
     bln_IIIa = EmailAlert.objects.filter(catchment= "Bln IIIa").order_by('-trigger_time').first()
     bln_V = EmailAlert.objects.filter(catchment= "Bln V").order_by('-trigger_time').first()
     bln_XII = EmailAlert.objects.filter(catchment= "Bln XII").order_by('-trigger_time').first()
-    
-    
-    
 
+    radolan = FeatureData.objects.filter(site__name="r").order_by('-date')[:3]
+    print(radolan)
 
     return render(request, 'ews/dashboard.html', 
                   {"value_aquabio": 200,
@@ -801,4 +800,5 @@ def dashboard(request):
                    "bln_III": bln_IIIa,
                    "bln_V": bln_V,
                    "bln_XII": bln_XII,
+                   "radolan":radolan,
                    "date_prediction": "2023-01-01"})
