@@ -130,3 +130,5 @@ dmypy.json
 .env
 notebooks
 db_paris_daily_final.sqlite3
+
+.DS_Store
