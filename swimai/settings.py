@@ -91,7 +91,7 @@ INSTALLED_APPS = [
 ]
 
 # deactivate this for production
-#os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
+os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

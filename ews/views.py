@@ -567,12 +567,17 @@ def model_fit(request, model_id):
     df_test['aboveP2_5'] = df_test['meas'] >= df_test['P2_5']
     df_test['measured_contamination'] = df_test['meas'] >= numpy.log10(1800)
     df_test['predicted_contamination'] = df_test['P90'] >= numpy.log10(900)
-    df_table = df_test[df_test['meas'].isna() is False]
+    df_table = df_test[df_test['meas'].isna() == False]
     ct_total = pandas.crosstab(df_table['predicted_contamination'],
                                df_table['measured_contamination'])
     ct_rel = pandas.crosstab(df_table['predicted_contamination'],
                              df_table['measured_contamination'],
                              normalize='columns').round(2)
+    
+    # expand the crosstabl object if no contamination is measures
+    if len(ct_total.columns) == 1:
+        ct_total= ct_total.reindex(columns=[False, True], fill_value = 0)
+        ct_rel = ct_rel.reindex(columns=[True, False], fill_value = 0)
 
     ratios = {
         'belowP95': numpy.mean(df_test['belowP95']).round(2)*100,
